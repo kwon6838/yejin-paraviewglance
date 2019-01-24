@@ -1,0 +1,88 @@
+<v-container :class="$style.container">
+  <v-card flat :class="$style.card">
+    <div :class="$style.heading">
+      <span class="body-2">Background</span>
+    </div>
+    <v-divider :class="$style.divider" />
+    <palette-picker
+      :palette="palette"
+      :size="20"
+      v-model="backgroundColor"
+    />
+  </v-card>
+  <v-card flat :class="$style.card">
+    <div :class="$style.heading">
+      <span class="body-2">Overlay</span>
+    </div>
+    <v-divider :class="$style.divider" />
+    <v-layout row align-center :class="$style.lineTopPadding">
+      <v-flex xs6>
+        <span class="body-2">Text opacity</span>
+      </v-flex>
+      <v-flex xs6>
+        <v-slider
+          :class="$style.noTopPadding"
+          hide-details
+
+          v-model="annotationOpacity"
+          :min="0"
+          :max="1"
+          :step="0.01"
+        />
+      </v-flex>
+    </v-layout>
+  </v-card>
+  <v-card flat :class="$style.card">
+    <div :class="$style.heading">
+      <v-layout row align-center>
+        <v-flex xs10>
+          <span class="body-2">Orientation Axis</span>
+        </v-flex>
+        <v-flex xs2>
+          <v-switch
+            v-model="orientationAxis"
+            hide-details
+          />
+        </v-flex>
+      </v-layout>
+    </div>
+    <v-divider :class="$style.divider" />
+    <v-layout row align-center :class="$style.lineTopPadding">
+      <v-flex xs3>
+        <span class="body-2">Type</span>
+      </v-flex>
+      <v-flex xs9>
+        <v-select
+          :class="[$style.noTopPadding, $style.noSelect]"
+          dense
+          flat
+          hide-details
+          :disabled="!orientationAxis"
+
+          v-model="axisType"
+          :items="axisTypes"
+        />
+      </v-flex>
+    </v-layout>
+    <v-layout row align-center :class="$style.lineTopPadding">
+      <v-flex xs3>
+        <span class="body-2">Preset</span>
+      </v-flex>
+      <v-flex xs9>
+        <v-select
+          :class="[$style.noTopPadding, $style.noSelect]"
+          dense
+          flat
+          hide-details
+
+          v-model="orientationPreset"
+          :items="orientationPresets"
+        />
+      </v-flex>
+    </v-layout>
+  </v-card>
+  <gpu-information
+    :width="250"
+    :proxyManager="proxyManager"
+  />
+</v-container>

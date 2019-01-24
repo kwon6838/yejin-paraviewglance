@@ -1,0 +1,43 @@
+.container {
+  height: 100%;
+  user-select: none;
+}
+
+.emptyState {
+  height: 100%;
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.takeScreenshot {
+  margin-top: 16px;
+}
+
+.filename {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.listAvatar {
+  /* override vuetify */
+  min-width: 0;
+}
+
+.listButton {
+  /* match v-list-tile-title height */
+  height: 24px;
+  width: 24px;
+  /* override vuetify */
+  margin: 0 3px;
+}
+
+.hoverTooltip {
+  background-color: white;
+  opacity: 1;
+}
+
+.hoverImage {
+  max-height: 200px;
+}

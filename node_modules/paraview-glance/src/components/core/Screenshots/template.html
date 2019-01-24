@@ -1,0 +1,96 @@
+<div :class="$style.container">
+  <v-toolbar color="transparent" flat>
+    <v-toolbar-title>Screenshots</v-toolbar-title>
+    <v-spacer />
+    <v-btn
+      icon
+      v-on:click="$emit('close')"
+    >
+      <v-icon>arrow_forward</v-icon>
+    </v-btn>
+  </v-toolbar>
+  <div
+    v-show="!atLeastOneScreenshot"
+    :class="$style.emptyState"
+  >
+    <v-icon large>photo_library</v-icon>
+    <span class="subheading grey--text text--darken-1">No screenshots yet!</span>
+    <v-btn
+      :class="$style.takeScreenshot"
+      :disabled="!activeView"
+      v-on:click="takeScreenshot"
+    >
+      Capture Active View
+    </v-btn>
+  </div>
+  <v-expansion-panel
+    v-show="atLeastOneScreenshot"
+    expand
+  >
+    <v-expansion-panel-content
+      v-for="name in Object.keys(screenshots)"
+      :key="name"
+      :value="true"
+    >
+      <div slot="header" class="title">
+        <v-icon>folder</v-icon>
+        <span>{{ name }} ({{ screenshots[name].length }})</span>
+      </div>
+      <v-list dense>
+        <v-tooltip
+          v-for="(screenshot, i) in screenshots[name]"
+          :key="i"
+          left
+          :disabled="smallScreen"
+          :content-class="$style.hoverTooltip"
+        >
+          <v-list-tile
+            slot="activator"
+            :class="$style.listItem"
+            avatar
+            v-on:click="viewScreenshot(name, i)"
+          >
+            <v-list-tile-avatar :class="$style.listAvatar">
+              <v-icon>image</v-icon>
+            </v-list-tile-avatar>
+            <v-list-tile-content>
+              <v-list-tile-title :title="screenshot.filename">
+                <v-layout row>
+                  <v-flex xs8 :class="$style.filename">
+                    <span class="body-1">{{ screenshot.filename }}</span>
+                  </v-flex>
+                  <v-flex xs4>
+                    <v-btn
+                      icon
+                      :href="screenshot.image"
+                      :download="screenshot.filename"
+                      :class="$style.listButton"
+                      v-on:click.stop
+                    >
+                      <v-icon small>get_app</v-icon>
+                    </v-btn>
+                    <v-btn
+                      icon
+                      :class="$style.listButton"
+                      v-on:click.stop="deleteScreenshot(name, i)"
+                    >
+                      <v-icon small>delete</v-icon>
+                    </v-btn>
+                  </v-flex>
+                </v-layout>
+              </v-list-tile-title>
+            </v-list-tile-content>
+          </v-list-tile>
+          <img
+            :class="$style.hoverImage"
+            :src="screenshot.image"
+          />
+        </v-tooltip>
+      </v-list>
+    </v-expansion-panel-content>
+  </v-expansion-panel>
+
+  <screenshot-dialog
+    v-on:save="addScreenshot"
+  />
+</div>
